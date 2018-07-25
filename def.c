@@ -117,7 +117,7 @@ void show_dicionario(dicionario* W[]){  //OK
 //==============================================================================================================
 void forca_add_char(forca* F, char guess){
 	int found = 0;
-		printf("char: %c, pos: %d\n", guess, char_pos(guess));
+		//printf("char: %c, pos: %d\n", guess, char_pos(guess));
 	if(F->used[char_pos(guess)] == 0){
 		F->used[char_pos(guess)] = 1;
 		for(int i = 0; i < 20; i++){
