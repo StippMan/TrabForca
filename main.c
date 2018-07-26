@@ -73,7 +73,15 @@ void main(){
 				case 1:
 					printf("Letra: ");
 					scanf(" %c", &letter);
-					forca_add_char(F, letter);
+					found = forca_add_char(F, letter);
+					if(found){
+						random = rand()%27;
+						while(aux == NULL && i < 26) {
+							aux = read_word(W, (random + i)%27);
+							i++;
+						}
+						nextgame(F, aux);
+					}
 				break;
 
 				case 2:
@@ -101,6 +109,7 @@ void main(){
 			}
 			if(F->tries == 0){
 				menus = 0;
+				op = 6;
 				endgame(N, F->points);
 			}	
 		}

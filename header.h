@@ -16,7 +16,7 @@ dicionario* read_word(dicionario* W[], int x);
 void remove_word(dicionario* W[], char x[]);
 dicionario* find_word(dicionario* W[], char x[]);
 void show_dicionario(dicionario* W[]);
-void forca_add_char(forca* F, char guess);
+int forca_add_char(forca* F, char guess);
 int forca_add_word(forca* F, char guess[]);
 ranking* rank_update(ranking* N, char name[], int score);
 void insertionsort_score(ranking* N, int n);
@@ -29,5 +29,6 @@ ranking* find_rank(ranking* N, char name[]);
 ranking* add_rank(ranking* N, int n, char name[], int score);
 void nextgame(forca* F, dicionario* word);
 void endgame(ranking* N, int points);
+int check_discovered(forca* F);
 //==============================================================================================================
 #endif
