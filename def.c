@@ -91,9 +91,11 @@ dicionario* read_word(dicionario* W[], int x){
 	dicionario* aux = W[x], *aux2 = W[x];
 	if(aux != NULL){
 		while(aux2->next != NULL) aux2 = aux2->next;
-		W[x] = aux->next;
-		aux2->next = aux;
-		aux->next = NULL;
+		if(aux != aux2){
+			W[x] = aux->next;
+			aux2->next = aux;
+			aux->next = NULL;
+		}
 	}
 	return aux;
 }
@@ -165,7 +167,7 @@ ranking* rank_update(ranking *N, char name[], int score){
 	}
 	aux = find_rank(N, name);
 	if(aux == NULL){
-		N = add_rank(N, n, name, score);
+		N = add_rank(N, name, score);
 		n++;
 	}else if(score > aux->score){
 		aux->score = score;
@@ -342,9 +344,9 @@ void show_forca(forca* F){
 	if(F->hints < 1) printf("  %s\n", F->dict->dica2);
 }
 //==============================================================================================================
-ranking* add_rank(ranking* N, int n, char name[], int score){
+ranking* add_rank(ranking* N, char name[], int score){
 	ranking* novo = alocar_ranking(name, score);
-	if (n == 0) N = novo;
+	if (N == NULL) N = novo;
 	else{
 		ranking* aux = N;
 		while(aux->next != NULL) aux = aux->next;

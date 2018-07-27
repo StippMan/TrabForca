@@ -26,7 +26,7 @@ void show_used(forca* F);
 void show_discovered(forca* F);
 int int_length(int x);
 ranking* find_rank(ranking* N, char name[]);
-ranking* add_rank(ranking* N, int n, char name[], int score);
+ranking* add_rank(ranking* N, char name[], int score);
 void nextgame(forca* F, dicionario* word);
 void endgame(ranking* N, int points);
 int check_discovered(forca* F);

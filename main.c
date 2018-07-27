@@ -76,10 +76,11 @@ void main(){
 					found = forca_add_char(F, letter);
 					if(found){
 						random = rand()%27;
-						while(aux == NULL && i < 26) {
-							aux = read_word(W, (random + i)%27);
+						printf("antes %d\n", random);
+						do {
 							i++;
-						}
+							aux = read_word(W, (random + i)%27);
+						}while(aux == NULL && i < 26);
 						nextgame(F, aux);
 					}
 				break;
@@ -90,10 +91,10 @@ void main(){
 					found = forca_add_word(F, word);
 					if(found){
 						random = rand()%27;
-						while(aux == NULL && i < 26) {
-							aux = read_word(W, (random + i)%27);
+						do {
 							i++;
-						}
+							aux = read_word(W, (random + i)%27);
+						}while(aux == NULL && i < 26);
 						nextgame(F, aux);
 					}
 				break;
