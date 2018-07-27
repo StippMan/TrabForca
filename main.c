@@ -110,7 +110,7 @@ void main(){
 			}
 			if(F->tries == 0){
 				menus = 0;
-				op = 6;
+				op = -1;
 				endgame(N, F->points);
 			}	
 		}

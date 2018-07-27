@@ -47,7 +47,7 @@ char char_unpos(int x){ //transforma a "posição" da letra no alfabeto em um "c
 	return x + 97;
 }
 //==============================================================================================================
-dicionario* alocar_dicionario(char word[], char dica1[], char dica2[]){ //OK
+dicionario* alocar_dicionario(char word[], char dica1[], char dica2[]){ 
 	dicionario* novo = (dicionario*)calloc(1,sizeof(dicionario));
 
 	strcpy(novo->word, word);
@@ -57,7 +57,7 @@ dicionario* alocar_dicionario(char word[], char dica1[], char dica2[]){ //OK
 	return novo;
 }
 //==============================================================================================================
-forca* alocar_forca(dicionario* word){
+forca* alocar_forca(dicionario* word){	
 	forca* novo = (forca*)calloc(1,sizeof(forca));
 	novo->dict = word;
 	novo->tries = 7;
@@ -75,7 +75,7 @@ ranking* alocar_ranking(char name[], int score){
 	return novo;
 }
 //==============================================================================================================
-void insert_dicionario(dicionario* W[], char word[], char dica1[], char dica2[]){
+void insert_dicionario(dicionario* W[], char word[], char dica1[], char dica2[]){  //insere uma palavra e suas dica no dicionario
 	int posit = char_pos(word[0]);
 	dicionario* novo = alocar_dicionario(word, dica1, dica2);
 	if(W[posit] == NULL) W[posit] = novo;
@@ -87,7 +87,7 @@ void insert_dicionario(dicionario* W[], char word[], char dica1[], char dica2[])
 	}
 }
 //==============================================================================================================
-dicionario* read_word(dicionario* W[], int x){
+dicionario* read_word(dicionario* W[], int x){ //le uma palavra do dicionario e a coloca no final da lista
 	dicionario* aux = W[x], *aux2 = W[x];
 	if(aux != NULL){
 		while(aux2->next != NULL) aux2 = aux2->next;
@@ -100,7 +100,7 @@ dicionario* read_word(dicionario* W[], int x){
 	return aux;
 }
 //==============================================================================================================
-void show_dicionario(dicionario* W[]){  //OK
+void show_dicionario(dicionario* W[]){  //mostra o dicionario completo
 	dicionario* aux;
 	printf("\n");
 	printf("Dicionário: \n");
@@ -117,9 +117,8 @@ void show_dicionario(dicionario* W[]){  //OK
 	}
 }
 //==============================================================================================================
-int forca_add_char(forca* F, char guess){
+int forca_add_char(forca* F, char guess){	//verifica o palpite (letra) e verifica se todas as letras foram descobertas (check_discovered)
 	int found = 0;
-		//printf("char: %c, pos: %d\n", guess, char_pos(guess));
 	if(F->used[char_pos(guess)] == 0){
 		F->used[char_pos(guess)] = 1;
 		for(int i = 0; i < 20; i++){
@@ -141,7 +140,7 @@ int forca_add_char(forca* F, char guess){
 	return found;
 }
 //==============================================================================================================
-int forca_add_word(forca* F, char guess[]){
+int forca_add_word(forca* F, char guess[]){  //verifica o palpite (palavra)
 	int length = strlen(guess), found = 0, cmp = strcmp(F->dict->word, guess);
 	if(cmp == 0){
 		for(int i = 0; i < length; i++){
@@ -158,7 +157,7 @@ int forca_add_word(forca* F, char guess[]){
 	}
 }
 //==============================================================================================================
-ranking* rank_update(ranking *N, char name[], int score){
+ranking* rank_update(ranking *N, char name[], int score){ //adiciona e atualiza (ordena) o ranking
 	ranking *aux = N;
 	int n = 0;
 	while(aux != NULL){
@@ -174,9 +173,10 @@ ranking* rank_update(ranking *N, char name[], int score){
 	}
 	insertionsort_name(N,n);  
 	insertionsort_score(N,n);
+	return N;
 }
 //==============================================================================================================
-void insertionsort_score(ranking* N, int n){
+void insertionsort_score(ranking* N, int n){ //insertionsort para a pontuacao(int)
 	int i;
 	ranking *key = N, *a = N;
 
@@ -208,7 +208,7 @@ void insertionsort_score(ranking* N, int n){
 
 }
 //==============================================================================================================
-void insertionsort_name(ranking* N, int n){
+void insertionsort_name(ranking* N, int n){ //insertionsort para os nome (string)
 	int i, j;
 	ranking *key = N, *a = N;
 
@@ -241,7 +241,7 @@ void insertionsort_name(ranking* N, int n){
 	}
 }
 //==============================================================================================================
-void show_used(forca* F){
+void show_used(forca* F){		//mostra as letras utilizadas (palpites dados)
 	printf("Letras \"Usadas\": ");
 	for(int i = 0; i < 26; i++){
 		if(F->used[i] == 1) printf("%c ", char_unpos(i));
@@ -249,7 +249,7 @@ void show_used(forca* F){
 	printf("\n");
 }
 //==============================================================================================================
-void show_discovered(forca* F){
+void show_discovered(forca* F){	//mostra a palavra com as letras que foram descobertas (ex: g e l _ d e _ _ _  = geladeira)
 	int len = strlen(F->dict->word);
 	printf("\n\t");
 	for(int i = 0; i < len; i++){
@@ -258,7 +258,7 @@ void show_discovered(forca* F){
 	}
 }
 //==============================================================================================================
-void remove_word(dicionario* W[], char x[]){
+void remove_word(dicionario* W[], char x[]){   //remove uma palavra do dicionário
 	int pos = char_pos(x[0]);
 	dicionario* aux = find_word(W, x);
 	if(aux != NULL){
@@ -280,7 +280,7 @@ void remove_word(dicionario* W[], char x[]){
 	}
 }
 //==============================================================================================================
-dicionario* find_word(dicionario* W[], char x[]){
+dicionario* find_word(dicionario* W[], char x[]){ //verifica se uma palavra existe no dicionario e retorna ela
 	int found = 1, pos = char_pos(x[0]);
 	dicionario* aux = W[pos];
 	while(aux != NULL){
@@ -291,7 +291,7 @@ dicionario* find_word(dicionario* W[], char x[]){
 	return aux;
 }
 //==============================================================================================================
-void show_ranking(ranking* N){
+void show_ranking(ranking* N){ //mostra o ranking
 	ranking* aux = N;
 	int len, j, i = 0;
 	printf("o=========o=======RANKING========o========o\n");
@@ -312,7 +312,7 @@ void show_ranking(ranking* N){
 	printf("\n");
 }
 //==============================================================================================================
-int int_length(int x){
+int int_length(int x){ //verifica o numero de digitos de um int exemplo: 1234 tem tamanho 4, 32 tem tamanho 2.
 	int len = 0;
 	if(x == 0) len++;
 	while (x != 0) {
@@ -322,7 +322,7 @@ int int_length(int x){
 	return len;
 }
 //==============================================================================================================
-void show_forca(forca* F){
+void show_forca(forca* F){ //mostra o estado atual da forca
 	int i;
 	printf("Pontos: %d\n", F->points);
 	printf("Tentativas restantes: %d\n", F->tries);
@@ -344,7 +344,7 @@ void show_forca(forca* F){
 	if(F->hints < 1) printf("  %s\n", F->dict->dica2);
 }
 //==============================================================================================================
-ranking* add_rank(ranking* N, char name[], int score){
+ranking* add_rank(ranking* N, char name[], int score){ //adiciona alguem ao ranking
 	ranking* novo = alocar_ranking(name, score);
 	if (N == NULL) N = novo;
 	else{
@@ -356,13 +356,13 @@ ranking* add_rank(ranking* N, char name[], int score){
 	return N;
 }
 //==============================================================================================================
-ranking* find_rank(ranking* N, char name[]){
+ranking* find_rank(ranking* N, char name[]){ //verifica se alguem ja esta no ranking
 	ranking* aux = N;
 	while(aux != NULL && strcmp(name, aux->name) != 0) aux = aux->next;
 	return aux;
 }
 //==============================================================================================================
-void endgame(ranking* N, int points){
+void endgame(ranking* N, int points){ //finaliza o jogo
 	printf("\nGAME OVER\n\n");
 	char word[20];
 	printf("Sua Pontuacao: %d\n", points);
@@ -371,7 +371,7 @@ void endgame(ranking* N, int points){
 	N = rank_update(N, word, points);
 }
 //==============================================================================================================
-void nextgame(forca* F, dicionario* word){
+void nextgame(forca* F, dicionario* word){ //reinicia o jogo com uma nova palavra, mantendo a pontuacao ("continua o jogo" quando o jogador acerta a palavra)
 	
 	F->dict = word;
 	F->tries = 7;
@@ -380,7 +380,7 @@ void nextgame(forca* F, dicionario* word){
 	for(int i = 0; i < 20; i++)	F->disc[i] = 0;
 }
 //==============================================================================================================
-int check_discovered(forca* F){
+int check_discovered(forca* F){  //verifica se todas as letras de uma palavra foram descobertas
 	for(int i = 0; i < strlen(F->dict->word); i++) if(F->disc[i] == 0) return 0;
 	return 1;
 }
