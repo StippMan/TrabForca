@@ -115,7 +115,7 @@ void show_dicionario(dicionario* W[]){  //OK
 	}
 }
 //==============================================================================================================
-void forca_add_char(forca* F, char guess){
+int forca_add_char(forca* F, char guess){
 	int found = 0;
 		//printf("char: %c, pos: %d\n", guess, char_pos(guess));
 	if(F->used[char_pos(guess)] == 0){
@@ -133,6 +133,10 @@ void forca_add_char(forca* F, char guess){
 			F->tries--;
 		}
 	}else printf("Letra já usada.\n");
+
+	found = check_discovered(F);
+	if(found) printf("Todas as letras descobertas!\n");
+	return found;
 }
 //==============================================================================================================
 int forca_add_word(forca* F, char guess[]){
@@ -357,6 +361,7 @@ ranking* find_rank(ranking* N, char name[]){
 }
 //==============================================================================================================
 void endgame(ranking* N, int points){
+	printf("\nGAME OVER\n\n");
 	char word[20];
 	printf("Sua Pontuacao: %d\n", points);
 	printf("Nome: ");
@@ -371,4 +376,9 @@ void nextgame(forca* F, dicionario* word){
 	F->hints = 2;
 	for(int i = 0; i < 26; i++)	F->used[i] = 0;
 	for(int i = 0; i < 20; i++)	F->disc[i] = 0;
+}
+//==============================================================================================================
+int check_discovered(forca* F){
+	for(int i = 0; i < strlen(F->dict->word); i++) if(F->disc[i] == 0) return 0;
+	return 1;
 }
